@@ -5,7 +5,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser')
 var cors = require('cors');
-var dbUrl = 'mongodb://localhost:27017/wyy-mic'
+var dbUrl = 'mongodb://103.202.94.6:27017/wyy-mic'
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:8099');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');

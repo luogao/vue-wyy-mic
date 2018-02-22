@@ -182,13 +182,23 @@ exports.addFav = function(req, res) {
             playlistName: req.body.playlistName,
             playlistCover: req.body.playlistCover,
         }
+        var resObj = {
+            code: 200,
+            data: []
+        };
+
         User.findById(favPlayList.userId, function(err, user) {
             user.favPlayList.push(favPlayList)
             user.save(function(err, comment) {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log('success')
+                    var _id = favPlayList.userId
+                    User.findById(_id, function(err, user) {
+                        resObj.data = user
+                        res.send(resObj)
+                        console.log('success')
+                    })
                 }
             })
         })
@@ -199,7 +209,7 @@ exports.addFav = function(req, res) {
 var cacheFolder = 'public/images/uploadcache/';
 exports.upload = function(req, res) {
     var currentUser = req.session.user;
-    var userDirPath =cacheFolder+ currentUser.id;
+    var userDirPath = cacheFolder + currentUser.id;
     if (!fs.existsSync(userDirPath)) {
         fs.mkdirSync(userDirPath);
     }

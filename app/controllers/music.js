@@ -148,19 +148,11 @@ exports.getSongList = function(req, res) {
 		code: 200,
 		data: []
 	};
-	request.get(`http://music.163.com/playlist?id=${playlistId}`)
+	request.get(`http://music.163.com/api/playlist/detail?id=${playlistId}`)
 		.end(function(err, _response) {
 
 			if (!err) {
-
-				// 成功返回 HTML
-				var $ = cheerio.load(_response.text, {
-					decodeEntities: false
-				});
-				// 获得歌单 dom
-				var dom = $('#m-playlist');
-
-				resObj.data = JSON.parse(dom.find('#song-list-pre-cache').find('textarea').html());
+				resObj.data = JSON.parse(_response.text).result.tracks;
 			} else {
 				resObj.code = 404;
 				console.log('Get data error!');
